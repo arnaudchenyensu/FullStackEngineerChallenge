@@ -1,0 +1,32 @@
+{
+  "name": "fullstackengineerchallenge",
+  "version": "1.0.0",
+  "description": "This is an interview challengs. Please feel free to fork. Pull Requests will be ignored.",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "run-p watch:*",
+    "watch:client": "chokidar 'src/**/*.elm' -c 'npm run build'",
+    "watch:server": "nodemon src/app.js",
+    "build": "elm make src/Main.elm --output=build/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnaudchenyensu/FullStackEngineerChallenge.git"
+  },
+  "author": "Arnaud Chenyensu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arnaudchenyensu/FullStackEngineerChallenge/issues"
+  },
+  "homepage": "https://github.com/arnaudchenyensu/FullStackEngineerChallenge#readme",
+  "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^1.2.2",
+    "nodemon": "^1.19.1",
+    "npm-run-all": "^4.1.5"
+  }
+}
