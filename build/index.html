@@ -4348,6 +4348,10 @@ var author$project$Main$Model = F2(
 		return {key: key, route: route};
 	});
 var author$project$Main$NotFound = {$: 'NotFound'};
+var author$project$Main$Admin = {$: 'Admin'};
+var author$project$Main$AdminPerfReviewList = function (a) {
+	return {$: 'AdminPerfReviewList', a: a};
+};
 var author$project$Main$Employee = function (a) {
 	return {$: 'Employee', a: a};
 };
@@ -4690,6 +4694,17 @@ var author$project$Main$route = elm$url$Url$Parser$oneOf(
 			A2(
 				elm$url$Url$Parser$slash,
 				elm$url$Url$Parser$s('employee'),
+				elm$url$Url$Parser$string)),
+			A2(
+			elm$url$Url$Parser$map,
+			author$project$Main$Admin,
+			elm$url$Url$Parser$s('admin')),
+			A2(
+			elm$url$Url$Parser$map,
+			author$project$Main$AdminPerfReviewList,
+			A2(
+				elm$url$Url$Parser$slash,
+				elm$url$Url$Parser$s('admin'),
 				elm$url$Url$Parser$string))
 		]));
 var elm$core$Maybe$withDefault = F2(
@@ -6040,12 +6055,43 @@ var author$project$Main$update = F2(
 				elm$core$Platform$Cmd$none);
 		}
 	});
-var elm$core$Debug$toString = _Debug_toString;
+var author$project$Employee$Employee = F2(
+	function (a, b) {
+		return {$: 'Employee', a: a, b: b};
+	});
+var author$project$Employee$Id = function (a) {
+	return {$: 'Id', a: a};
+};
+var author$project$Employee$new = function (name_) {
+	return A2(
+		author$project$Employee$Employee,
+		author$project$Employee$Id(name_),
+		name_);
+};
+var author$project$Api$getEmployees = _List_fromArray(
+	[
+		author$project$Employee$new('Fred'),
+		author$project$Employee$new('John')
+	]);
+var author$project$Employee$idFromString = function (string) {
+	return author$project$Employee$Id(string);
+};
+var author$project$Employee$id = function (_n0) {
+	var id_ = _n0.a;
+	return id_;
+};
+var author$project$Employee$idToString = function (_n0) {
+	var id_ = _n0.a;
+	return id_;
+};
+var author$project$Employee$name = function (_n0) {
+	var name_ = _n0.b;
+	return name_;
+};
 var elm$html$Html$a = _VirtualDom_node('a');
 var elm$html$Html$li = _VirtualDom_node('li');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$html$Html$ul = _VirtualDom_node('ul');
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -6060,51 +6106,182 @@ var elm$html$Html$Attributes$href = function (url) {
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
-var author$project$Main$view = function (model) {
-	return {
-		body: _List_fromArray(
+var author$project$Page$Admin$Home$viewEmployee = function (employee) {
+	var link = 'admin/' + author$project$Employee$idToString(
+		author$project$Employee$id(employee));
+	return A2(
+		elm$html$Html$li,
+		_List_Nil,
+		_List_fromArray(
 			[
-				elm$html$Html$text(
-				'The current route is: ' + elm$core$Debug$toString(model.route)),
 				A2(
-				elm$html$Html$ul,
+				elm$html$Html$a,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$href(link)
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text(
+						author$project$Employee$name(employee))
+					]))
+			]));
+};
+var elm$html$Html$ul = _VirtualDom_node('ul');
+var author$project$Page$Admin$Home$view = function (employees) {
+	var lis = A2(elm$core$List$map, author$project$Page$Admin$Home$viewEmployee, employees);
+	return A2(elm$html$Html$ul, _List_Nil, lis);
+};
+var author$project$PerfReview$Id = function (a) {
+	return {$: 'Id', a: a};
+};
+var author$project$PerfReview$PerfReview = F2(
+	function (a, b) {
+		return {$: 'PerfReview', a: a, b: b};
+	});
+var author$project$PerfReview$new = F2(
+	function (employeeId, text) {
+		var info_ = {date: 'today', employeeId: employeeId, text: text};
+		var id_ = author$project$PerfReview$Id(
+			_Utils_ap(
+				author$project$Employee$idToString(employeeId),
+				text));
+		return A2(author$project$PerfReview$PerfReview, id_, info_);
+	});
+var author$project$Api$getPerfReviews = function (employeeId) {
+	return _List_fromArray(
+		[
+			A2(author$project$PerfReview$new, employeeId, 'Very good month. Lot of improvements.'),
+			A2(author$project$PerfReview$new, employeeId, 'First good month.')
+		]);
+};
+var author$project$PerfReview$info = function (_n0) {
+	var info_ = _n0.b;
+	return info_;
+};
+var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$p = _VirtualDom_node('p');
+var author$project$Page$Admin$PerfReview$List$viewPerfReview = function (perfReview) {
+	var info = author$project$PerfReview$info(perfReview);
+	return A2(
+		elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$p,
 				_List_Nil,
 				_List_fromArray(
 					[
-						A2(
-						elm$html$Html$li,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$a,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$href('/')
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('home')
-									]))
-							])),
-						A2(
-						elm$html$Html$li,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$a,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$href('/employee/arnaud')
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('employee')
-									]))
-							]))
+						elm$html$Html$text(info.date)
+					])),
+				A2(
+				elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						elm$html$Html$text(info.text)
 					]))
-			]),
+			]));
+};
+var author$project$Page$Admin$PerfReview$List$view = function (id) {
+	var perfReviews = author$project$Api$getPerfReviews(id);
+	return A2(
+		elm$html$Html$div,
+		_List_Nil,
+		A2(elm$core$List$map, author$project$Page$Admin$PerfReview$List$viewPerfReview, perfReviews));
+};
+var elm$core$Debug$toString = _Debug_toString;
+var author$project$Main$view = function (model) {
+	return {
+		body: function () {
+			var _n0 = model.route;
+			switch (_n0.$) {
+				case 'Home':
+					return _List_fromArray(
+						[
+							elm$html$Html$text(
+							'The current route is: ' + elm$core$Debug$toString(model.route)),
+							A2(
+							elm$html$Html$ul,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$li,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$a,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$href('/')
+												]),
+											_List_fromArray(
+												[
+													elm$html$Html$text('home')
+												]))
+										])),
+									A2(
+									elm$html$Html$li,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$a,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$href('/admin')
+												]),
+											_List_fromArray(
+												[
+													elm$html$Html$text('admin')
+												]))
+										])),
+									A2(
+									elm$html$Html$li,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$a,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$href('/employee/arnaud')
+												]),
+											_List_fromArray(
+												[
+													elm$html$Html$text('employee')
+												]))
+										]))
+								]))
+						]);
+				case 'Admin':
+					return _List_fromArray(
+						[
+							author$project$Page$Admin$Home$view(author$project$Api$getEmployees)
+						]);
+				case 'AdminPerfReviewList':
+					var employeeId = _n0.a;
+					return _List_fromArray(
+						[
+							author$project$Page$Admin$PerfReview$List$view(
+							author$project$Employee$idFromString(employeeId))
+						]);
+				case 'Employee':
+					var e = _n0.a;
+					return _List_fromArray(
+						[
+							elm$html$Html$text(e)
+						]);
+				default:
+					return _List_fromArray(
+						[
+							elm$html$Html$text('Page not found')
+						]);
+			}
+		}(),
 		title: 'URL test'
 	};
 };
