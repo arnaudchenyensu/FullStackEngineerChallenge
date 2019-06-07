@@ -13,7 +13,8 @@ type Feedback
   = Feedback Id Info
 
 type alias Info =
-  { date : String
+  { id : Id
+  , date : String
   , from : Employee.Id
   , text : String
   , submitted : Bool

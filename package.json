@@ -22,7 +22,9 @@
   "homepage": "https://github.com/arnaudchenyensu/FullStackEngineerChallenge#readme",
   "dependencies": {
     "connect-history-api-fallback": "^1.6.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "knex": "^0.17.3",
+    "sqlite3": "^4.0.8"
   },
   "devDependencies": {
     "chokidar-cli": "^1.2.2",
