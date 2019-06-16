@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
     "watch:client": "chokidar 'src/**/*.elm' -c 'npm run build'",
-    "watch:server": "nodemon src/app.js",
+    "watch:server": "nodemon api/app.js",
+    "init:db": "node api/initDb.js",
     "build": "elm make src/Main.elm --output=build/index.html"
   },
   "repository": {
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/arnaudchenyensu/FullStackEngineerChallenge#readme",
   "dependencies": {
     "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.17.3",
     "sqlite3": "^4.0.8"

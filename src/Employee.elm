@@ -4,9 +4,14 @@ module Employee exposing
   , id
   , idToString
   , idFromString
+  , decoder
   , new
   , name
   )
+
+
+import Json.Decode as Decode exposing (Decoder)
+import Json.Decode.Pipeline exposing (required)
 
 type Id
   = Id String
@@ -32,6 +37,16 @@ idFromString : String -> Id
 idFromString string =
   Id string
 
+idDecoder : Decoder Id
+idDecoder =
+  Decode.map Id (Decode.map String.fromInt Decode.int)
+
 name : Employee -> String
 name (Employee _ name_) =
   name_
+
+decoder : Decoder Employee
+decoder =
+  Decode.succeed Employee
+  |> required "id" idDecoder
+  |> required "name" Decode.string

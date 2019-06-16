@@ -3,14 +3,17 @@ module Api exposing
   , getPerfReviews
   )
 
+import Http
+import Json.Decode as Decode
 import Employee exposing (Employee)
 import PerfReview exposing (PerfReview)
 
-getEmployees : List Employee
-getEmployees =
-  [ Employee.new "Fred"
-  , Employee.new "John"
-  ]
+getEmployees : (Result Http.Error (List Employee) -> msg) -> Cmd msg
+getEmployees msg =
+  Http.get
+    { url = "http://localhost:3000/api/employees"
+    , expect = Http.expectJson msg (Decode.list Employee.decoder)
+    }
 
 getPerfReviews : Employee.Id -> List PerfReview
 getPerfReviews employeeId =

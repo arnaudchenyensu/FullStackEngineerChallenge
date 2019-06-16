@@ -1,7 +1,7 @@
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
-    filename: './build/app.db'
+    filename: './api/app.db'
   }
 });
 
@@ -39,10 +39,40 @@ const feedbacks = [
     perfReviewId: 1
   },
   {
+    text: "",
+    submitted: false,
+    from: 1,
+    perfReviewId: 1
+  },
+  {
     text: "I agree, you did a great work.",
     submitted: true,
     from: 2,
     perfReviewId: 2
+  },
+  {
+    text: "I agree, you did a great work.",
+    submitted: true,
+    from: 2,
+    perfReviewId: 3
+  },
+  {
+    text: "",
+    submitted: false,
+    from: 2,
+    perfReviewId: 1
+  },
+  {
+    text: "",
+    submitted: false,
+    from: 2,
+    perfReviewId: 2
+  },
+  {
+    text: "",
+    submitted: false,
+    from: 2,
+    perfReviewId: 3
   },
 ];
 
@@ -76,7 +106,9 @@ knex.schema
   .then(() => knex.insert(feedbacks).into('feedback'))
   .then(function () {
     console.log('success');
+    process.exit(0);
   })
   .catch(function (error) {
     console.error(error);
+    process.exit(1);
   })
